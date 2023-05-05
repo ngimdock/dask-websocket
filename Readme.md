@@ -24,7 +24,7 @@ cp .env.example .env
 
 Complete the required enviroments variables in the .env file
 
-## Step3: Start the project in development mode
+## Step4: Start the project in development mode
 
 ```bash
 yarn dev

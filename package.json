@@ -1,13 +1,14 @@
 {
   "name": "dask-websocket",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./src/index.js",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "lint": "eslint"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
@@ -16,8 +17,16 @@
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
     "concurrently": "^8.0.1",
+    "eslint": "^8.39.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
     "nodemon": "^2.0.22",
+    "prettier": "^2.8.8",
     "typescript": "^5.0.4"
   }
 }

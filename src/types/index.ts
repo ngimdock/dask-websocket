@@ -25,16 +25,18 @@ export interface NewProjectMemberPayload {
 
 export interface UpdateTaskPayload {
   projectId: string;
-  taskData: Task;
+  task: Task;
 }
 
 export interface AssingTaskPayload {
-  //
+  projectId: string;
+  taskId: string;
+  userId: string;
 }
 
 export type Task = {
   id: string;
-  status: TaskStatus;
+  status?: TaskStatus;
   title?: string;
   description?: string;
 };

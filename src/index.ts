@@ -4,6 +4,7 @@ import * as http from 'http';
 import { Server, Socket } from 'socket.io';
 import {
   AddTaskPayload,
+  AssingTaskPayload,
   NewProjectMemberPayload,
   RemoveTaskPayload,
   UpdateTaskPayload,
@@ -43,29 +44,28 @@ io.on(events.connection, (socket: Socket) => {
   );
 
   socket.on(events.addTask, (taskData: AddTaskPayload) => {
-    console.log({ taskData });
-
     socket.broadcast.to(taskData.projectId).emit(events.addTask, taskData);
   });
 
   socket.on(events.removeTask, (taskData: RemoveTaskPayload) => {
-    socket.broadcast
-      .to(taskData.projectId)
-      .emit(events.removeTask, taskData.taskId);
+    socket.broadcast.to(taskData.projectId).emit(events.removeTask, taskData);
   });
 
   socket.on(events.updateTask, (updateTaskData: UpdateTaskPayload) => {
-    const { projectId: projectRoom, taskData } = updateTaskData;
+    const { projectId: projectRoom, task } = updateTaskData;
 
     const responsePayload = {
       project: projectRoom,
-      task: {
-        id: taskData.id,
-        status: taskData.status,
-      },
+      task,
     };
 
     socket.broadcast.to(projectRoom).emit(events.updateTask, responsePayload);
+  });
+
+  socket.on(events.assignATask, (assignTaskData: AssingTaskPayload) => {
+    const { projectId: projectRoom } = assignTaskData;
+
+    socket.broadcast.to(projectRoom).emit(events.assignATask, assignTaskData);
   });
 
   socket.on(events.disconnect, (_) => {

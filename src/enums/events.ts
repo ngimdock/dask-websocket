@@ -6,4 +6,5 @@ export enum events {
   addTask = 'add-task',
   removeTask = 'remove-task',
   updateTask = 'update-task',
+  assignATask = 'assign-a-task',
 }

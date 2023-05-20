@@ -23,7 +23,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 io.on(events.connection, (socket: Socket) => {
-  console.log('a user connected');
+  console.log('User connected');
 
   socket.on(events.join, (userData: UserJoinPayload) => {
     for (const projectRoom of userData.sharedProjects) {
@@ -43,9 +43,9 @@ io.on(events.connection, (socket: Socket) => {
   );
 
   socket.on(events.addTask, (taskData: AddTaskPayload) => {
-    socket.broadcast
-      .to(taskData.projectId)
-      .emit(events.addTask, taskData.taskId);
+    console.log({ taskData });
+
+    socket.broadcast.to(taskData.projectId).emit(events.addTask, taskData);
   });
 
   socket.on(events.removeTask, (taskData: RemoveTaskPayload) => {
@@ -57,7 +57,15 @@ io.on(events.connection, (socket: Socket) => {
   socket.on(events.updateTask, (updateTaskData: UpdateTaskPayload) => {
     const { projectId: projectRoom, taskData } = updateTaskData;
 
-    socket.broadcast.to(projectRoom).emit(events.updateTask, taskData);
+    const responsePayload = {
+      project: projectRoom,
+      task: {
+        id: taskData.id,
+        status: taskData.status,
+      },
+    };
+
+    socket.broadcast.to(projectRoom).emit(events.updateTask, responsePayload);
   });
 
   socket.on(events.disconnect, (_) => {

@@ -28,11 +28,15 @@ export interface UpdateTaskPayload {
   taskData: Task;
 }
 
+export interface AssingTaskPayload {
+  //
+}
+
 export type Task = {
   id: string;
-  title: string;
-  description: string;
   status: TaskStatus;
+  title?: string;
+  description?: string;
 };
 
 export enum TaskStatus {

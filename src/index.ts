@@ -31,7 +31,7 @@ app.get('/status', (req: Request, res: Response) => {
 });
 
 io.on(events.connection, (socket: Socket) => {
-  console.log('User connected');
+  console.log('Connexion..');
 
   socket.on(events.join, (userData: UserJoinPayload) => {
     for (const projectRoom of userData.sharedProjects) {

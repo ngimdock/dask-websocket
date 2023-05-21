@@ -11,6 +11,7 @@ import {
   UserJoinPayload,
 } from './types/index.js';
 import { events } from './enums/events.js';
+import { name, version } from 'package.json';
 dotenv.config();
 
 const app: Express = express();
@@ -21,6 +22,12 @@ const io = new Server(server);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server:  🐻 🐼');
+});
+
+app.get('/status', (req: Request, res: Response) => {
+  console.log('Check status...');
+
+  res.status(200).json({ name, version });
 });
 
 io.on(events.connection, (socket: Socket) => {
@@ -35,11 +42,11 @@ io.on(events.connection, (socket: Socket) => {
   socket.on(
     events.newProjectMember,
     (newProjectMemberData: NewProjectMemberPayload) => {
-      const { newMemberId, projectId: projectRoom } = newProjectMemberData;
+      const { projectId: projectRoom } = newProjectMemberData;
 
       socket.broadcast
         .to(projectRoom)
-        .emit(events.newProjectMember, newMemberId);
+        .emit(events.newProjectMember, newProjectMemberData);
     },
   );
 
@@ -68,7 +75,7 @@ io.on(events.connection, (socket: Socket) => {
     socket.broadcast.to(projectRoom).emit(events.assignATask, assignTaskData);
   });
 
-  socket.on(events.disconnect, (_) => {
+  socket.on(events.disconnect, () => {
     console.log('user disconnected');
   });
 });

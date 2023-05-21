@@ -12,15 +12,9 @@ export interface AddTaskPayload {
 
 export type RemoveTaskPayload = AddTaskPayload;
 
-export type User = {
-  id: string;
-  email: string;
-  name: string;
-};
-
 export interface NewProjectMemberPayload {
   projectId: string;
-  newMemberId: User;
+  newMemberId: string;
 }
 
 export interface UpdateTaskPayload {
